@@ -14,8 +14,12 @@ import numpy as np
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 # reshape input data
-X_train = X_train.reshape(X_train.shape[0], 1, 28, 28)
-X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
+print(X_train.shape)
+# X_train = X_train.reshape(X_train.shape[0], 1, 28, 28)
+# X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
+X_train = X_train.reshape(X_train.shape[0], 28, 28, 1)
+X_test = X_test.reshape(X_test.shape[0], 28, 28, 1)
+print(X_train.shape)
 
 # Convert to float32 and normalize
 X_train = X_train.astype('float32')
@@ -47,11 +51,12 @@ model.add(Dense(10, activation='softmax'))
 
 # Compile model
 model.compile(loss='categorical_crossentropy',
-              optimizer='SGD',
+              optimizer='adam',
               metrics=['accuracy'])
 
 # Fit model
-model.fit(X_train, Y_train, batch_size=32, nb_epoch=10, verbose=1)
+model.fit(X_train, Y_train, batch_size=32, epochs=2, verbose=1)
+
 
 # Score model
 score = model.evaluate(X_test, Y_test, verbose=0)
